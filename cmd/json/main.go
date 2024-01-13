@@ -5,12 +5,18 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	// env
 	// ...
-	
+	if err := godotenv.Load("./../../.env"); err != nil {
+		fmt.Println(err)
+		return
+	}
+
 	// application
 	// - config
 	dbFilePathLastId, err := strconv.Atoi(os.Getenv("DB_FILE_PATH_LAST_ID"))
@@ -19,11 +25,11 @@ func main() {
 		return
 	}
 	cfg := &application.ConfigAppJSON{
-		Addr:  os.Getenv("SERVER_ADDR"),
-		Token: os.Getenv("API_TOKEN"),
-		FilePath: os.Getenv("DB_FILE_PATH"),
+		Addr:           os.Getenv("SERVER_ADDR"),
+		Token:          os.Getenv("API_TOKEN"),
+		FilePath:       os.Getenv("DB_FILE_PATH"),
 		FilePathLastId: dbFilePathLastId,
-		LayoutDate: os.Getenv("LAYOUT_DATE"),
+		LayoutDate:     os.Getenv("LAYOUT_DATE"),
 	}
 	app := application.NewApplicationJSON(cfg)
 	// - set-up
